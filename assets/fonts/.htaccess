@@ -1,0 +1,5 @@
+DirectoryIndex style.php
+ErrorDocument 401 "Unauthorized"
+ErrorDocument 403 "Forbidden"
+
+Header set Cache-Control "max-age=604800, public"
