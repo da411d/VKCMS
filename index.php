@@ -42,7 +42,7 @@
 
 
 
-  <div class="main pink" id="feedback">
+  <div class="main l" id="feedback">
 	<div class="li narrow">
 		<a class="link" href="https://vk.com/if_ftl" target="_blank">
 			<div class="icon"><img src="/assets/images/vk.svg"></div>
@@ -56,7 +56,7 @@
 		</a>
 	</div>
 </div>
-<div class="main blue" style="text-align:left;padding-bottom:0;" id="contacts">
+<div class="main d" style="text-align:left;padding-bottom:0;" id="contacts">
 	<p>
 		Наша адреса:Україна, 76492,<br>
 		м.Івано-Франківськ, с.Угорники,<br>
