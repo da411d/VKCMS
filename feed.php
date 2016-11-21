@@ -46,7 +46,7 @@ function genCard($cards, $cols=3){
 		if($link){
 			$echoer .= '<a href="' . $link . '"' . $target . '>';
 		}
-		$echoer .= '<div class="card cw' . $cls . '" onmousedown="CClick(this, event)"' . $id . '>';
+		$echoer .= '<div class="card cw' . $cls . '"' . $id . '>';
 			if($placeholder){
 				$echoer .= '<div class="img" style="background-image:url(' . $placeholder . ')"></div>';
 			}

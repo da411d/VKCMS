@@ -105,6 +105,22 @@ function genAttachment($arr){
 				$data .= '<div class="img" style="background-image:url(' . $a['photo']['photo_1280'] . ')"></div>';
 				$data .= '</div></a>';
 				break;
+
+			case "video":
+				$data .= '<a href="https://vk.com/video' . $a['video']['owner_id'] . "_" . $a['video']['id'] . '" target="_blank"><div class="card cw3">';
+				if($a['video']['photo_800']){
+					$data .= '<div class="img" style="background-image:url(' . $a['video']['photo_800'] . ')"></div>';
+				}
+				$data .= '<div class="content">';
+					if($a['video']['title']){
+						$data .= '<span class="link">' . $a['video']['title'] . '</span>';
+					}
+					if($a['video']['description']){
+						$data .= $a['video']['description'];
+					}
+				$data .= '</div>';
+				$data .= '</div></a>';
+				break;
 		}
 	}
 	$data .= '</div>';
@@ -124,29 +140,52 @@ function genFeed($p){
 		$title = nl2br($title);
 		$arr["title"] = $title;
 		$arr["title"] = $title;
+	}else if(is_array($p['attachments']) && is_array($p['attachments']['video']['title'])){
+		$title = $p['attachments']['link']['title'];
+		$title = nl2br($title);
+		$arr["title"] = $title;
+		$arr["title"] = $title;
 	}
 
 
 	if(strlen($p['text'])){
 		$text = $p['text'];
 		$text = nl2br($text);
+		if(strpos($text, ' ') && strlen($text)>260){
+			$text = substr($text, 0, strpos($text, ' ', 260)) . "...";
+		}
 		$arr["text"] = $text;
 	}else if(is_array($p['attachments']) && is_array($p['attachments']['album']['description'])){
 		$text = $p['attachments']['album']['description'];
 		$text = nl2br($text);
+		if(strpos($text, ' ') && strlen($text)>260){
+			$text = substr($text, 0, strpos($text, ' ', 260)) . "...";
+		}
+		$arr["text"] = $text;
+	}else if(is_array($p['attachments']) && is_array($p['attachments']['video']['description'])){
+		$text = $p['attachments']['video']['description'];
+		$text = nl2br($text);
+		if(strpos($text, ' ') && strlen($text)>260){
+			$text = substr($text, 0, strpos($text, ' ', 260)) . "...";
+		}
 		$arr["text"] = $text;
 	}else if(is_array($p['attachments']) && is_array($p['attachments']['link']['description'])){
 		$text = $p['attachments']['album']['description'];
 		$text = nl2br($text);
+		if(strpos($text, ' ') && strlen($text)>260){
+			$text = substr($text, 0, strpos($text, ' ', 260)) . "...";
+		}
 		$arr["text"] = $text;
 	}
 
 	if(is_array($p['attachments']) && is_array($p['attachments']['photo'])){
 		$arr["image"] = $p['attachments']['photo']['photo_1280'];
-	}else if(is_array($p['attachments']) && is_array($p['attachments']['link']) && is_array($p['attachments']['link'])['photo']){
+	}else if(is_array($p['attachments']) && is_array($p['attachments']['link']) && is_array($p['attachments']['link']['photo'])){
 		$arr["image"] = $p['attachments']['link']['photo']['photo_604'];
-	}else if(is_array($p['attachments']) && is_array($p['attachments']['album']) && is_array($p['attachments']['album'])['thumb']){
+	}else if(is_array($p['attachments']) && is_array($p['attachments']['album']) && is_array($p['attachments']['album']['thumb'])){
 		$arr["image"] = $p['attachments']['album']['thumb']['photo_1280'];
+	}else if(is_array($p['attachments']) && is_array($p['attachments']['video']) && is_array($p['attachments']['video']['photo_800'])){
+		$arr["image"] = $p['attachments']['video']['photo_800'];
 	}
 	return count($arr)>1?$arr:false;
 }
