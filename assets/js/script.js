@@ -1,4 +1,4 @@
-document.addEventListener("scroll", function(e){
+document.querySelector(".scrolltop") && document.addEventListener("scroll", function(e){
 	var el = document.querySelector(".scrolltop");
 	var els = document.querySelectorAll(".main");
 	if(el.getBoundingClientRect().top < 320)return;

@@ -12,7 +12,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="HandheldFriendly" content="True">
 </head>
-<body>
+<body onhashchange="page_ready()">
   <div class="header" id="top">
 	<div class="header_container">
 		<span class="h1" ondblclick="Flashlight.toggle()">Фізико-Технічний Ліцей</span>
@@ -29,11 +29,9 @@
 </div>
 
 <div class="main">
-<h1>Новини</h1>
-<div class="loader"></div>
+	<h1><a href="#" class="back" style="display:none;">< НАЗАД</a>Новини</h1>
+	<div class="loader"></div>
 </div>
-
-<a class="scrolltop" style="bottom:-48px;" href="#top"><img src="/assets/images/up-arrow.png"></a>
 </body>
 <script src="/assets/js/script.js"></script>
 <script src="/assets/js/loader.js"></script>
