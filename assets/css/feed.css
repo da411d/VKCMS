@@ -333,3 +333,50 @@
 	margin:8px 8px;
 	opacity:1;
 }
+
+
+.post_wrapper .attachment .album{
+	display: inline-block;
+	height:320px;
+	width:480px;
+	max-width:100%;
+	position:relative;
+	background-position: 50% 50%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	cursor:pointer;
+}
+
+.post_wrapper .attachment .album .info{
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	height:auto;
+	background:rgba(0, 0, 0, 0.5);
+	color:#FFFFFF;
+}
+
+.post_wrapper .attachment .album .info .title{
+	font-weight: bolder;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: block;
+	height: 36px;
+	margin:8px;
+}
+.post_wrapper .attachment .album .info .description{
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: block;
+	height: 0px;
+	margin:0px 8px;
+	opacity:0;
+}
+.post_wrapper .attachment .album:hover .info .description{
+	height:36px;
+	margin:8px 8px;
+	opacity:1;
+}

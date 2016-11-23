@@ -62,6 +62,20 @@ function readyPost(n){
 								l.appendChild(v);
 								c.appendChild(l);
 								break;
+							case "album":
+								var l = document.createElement("a");
+								l.href = "https://vk.com/album"+a.album.owner_id+"_"+a.album.id;
+								var v = document.createElement("div");
+								v.className = "album";
+								v.style.backgroundImage = "url(" +(a.album.thumb.photo_1280 || a.album.thumb.photo_807 || a.album.thumb.photo_604 || a.album.thumb.photo_130)+ ")";
+								var innerHTML = '<div class="info">';
+								if(a.album.title)innerHTML += '<span class="title">'+a.album.title+'</span>';
+								if(a.album.description)innerHTML += '<span class="description">'+a.album.description+'</span>';
+								innerHTML += '</div>';
+								v.innerHTML = innerHTML;
+								l.appendChild(v);
+								c.appendChild(l);
+								break;
 						}
 					}
 					return c.innerHTML;
@@ -72,8 +86,6 @@ function readyPost(n){
 					for(var i=0;i<t.attachments.length;i++){
 						if(t.attachments[i].type == "photo"){
 							return t.attachments[i].photo.photo_1280;
-						}else if(t.attachments[i].type == "album"){
-							return t.attachments[i].album.thumb.photo_1280;
 						}
 					}
 				})(t),
