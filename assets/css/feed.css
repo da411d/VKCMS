@@ -215,7 +215,7 @@
 	width:100%;
 }
 
-.post_wrapper .attachment > div{
+.post_wrapper .attachment a > div{
 	margin:16px;
 }
 .post_wrapper .attachment .video{
@@ -272,8 +272,10 @@
 	display: block;
 	height: 0px;
 	margin:0px 8px;
+	opacity:0;
 }
 .post_wrapper .attachment .video:hover .info .description{
 	height:36px;
 	margin:8px 8px;
+	opacity:1;
 }
