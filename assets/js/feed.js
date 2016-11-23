@@ -28,26 +28,45 @@ function readyPost(n){
 		if(t.id==n){
 			innerHTML += genPost({
 				POST_ID: t.id,
+				ORIGINAL: t.owner_id+"_"+t.id,
 				PROFILE_PHOTO: "data/profile.jpg",
 				USERNAME: "ФТЛ",
 				TIME: new Date(new Date() - t.date).toLocaleDateString(),
+				ATTACHMENT:(function(t){
+					var c = document.createElement("div");
+					if(!t.attachments)return false;
+					for(var i=0;i<t.attachments.length;i++){
+						var a = t.attachments[i];
+						switch(a.type){
+							case "video":
+								var l = document.createElement("a");
+								l.href = "https://vk.com/video"+a.video.owner_id+"_"+a.video.id;
+								var v = document.createElement("div");
+								v.className = "video";
+								v.style.backgroundImage = "url(" +(a.video.photo_640 || a.video.photo_320)+ ")";
+								v.innerHTML = '<div class="info"><span class="title">'+a.video.title+'</span><span class="description">'+a.video.description+'</span></div>';
+								l.appendChild(v);
+								c.appendChild(l);
+								break;
+						}
+					}
+					return c.innerHTML;
+				})(t),
 				IMAGE: (function(t){
 					var im = "";
+					if(!t.attachments)return false;
 					for(var i=0;i<t.attachments.length;i++){
 						if(t.attachments[i].type == "photo"){
 							return t.attachments[i].photo.photo_1280;
-						}else if(t.attachments[i].type == "link" && typeof t.attachments[i].link.photo == "array"){
-							return t.attachments[i].link.photo.photo_604;
 						}else if(t.attachments[i].type == "album"){
 							return t.attachments[i].album.thumb.photo_1280;
-						}else if(t.attachments[i].type == "video"){
-							return t.attachments[i].video.photo_800;
 						}
 					}
 				})(t),
 				TEXT:(function(t){
 					if(t.text)return t.text;
 					out = "";
+					if(!t.attachments)return false;
 					for(var i=0;i<t.attachments.length;i++){
 						if(t.attachments[i].type == "link" && (t.attachments[i].link.title || t.attachments[i].link.description)){
 							if(t.attachments[i].link.title)out += t.attachments[i].link.title;
@@ -87,6 +106,7 @@ function readyCards(){
 			TIME: new Date(new Date() - t.date).toLocaleDateString(),
 			IMAGE: (function(t){
 				var im = "";
+				if(!t.attachments)return false;
 				for(var i=0;i<t.attachments.length;i++){
 					if(t.attachments[i].type == "photo"){
 						return t.attachments[i].photo.photo_1280;
@@ -102,6 +122,7 @@ function readyCards(){
 			TEXT:(function(t){
 				if(t.text)return limitText(t.text);
 				out = "";
+				if(!t.attachments)return false;
 				for(var i=0;i<t.attachments.length;i++){
 					if(t.attachments[i].type == "link" && (t.attachments[i].link.title || t.attachments[i].link.description)){
 						if(t.attachments[i].link.title)out += t.attachments[i].link.title;
@@ -146,7 +167,7 @@ function genCard(data){
 }
 
 function genPost(data){
-	var tmpl = '<div class="post"><div class="author"><div class="photo" style="background-image: url({PROFILE_PHOTO});"></div><div class="name">{USERNAME}</div><div class="time">{TIME}</div></div>{IMAGES}<div class="text">{TEXT}</div></div>';
+	var tmpl = '<div class="post"><div class="author"><div class="photo" style="background-image: url({PROFILE_PHOTO});"></div><div class="name">{USERNAME}</div><div class="time">{TIME}</div></div>{IMAGES}<div class="text">{TEXT}</div></div><div class="attachment">{ATTACHMENT}</div><a class="goto_source" href="http://vk.com/wall{ORIGINAL}">Дивитись оригінал</a>';
 	var cout = tmpl;
 
 	if(typeof data.IMAGE == "string"){
@@ -155,7 +176,7 @@ function genPost(data){
 	for(k in data){
 		cout = cout.replace("{"+k+"}", data[k]);
 	}
-	var others = ["{POST_ID}", "{PROFILE_PHOTO}", "{USERNAME}", "{TIME}", "{IMAGES}", "{TEXT}", "{IMAGE}"];
+	var others = ["{POST_ID}", "{PROFILE_PHOTO}", "{USERNAME}", "{TIME}", "{IMAGES}", "{TEXT}", "{IMAGE}", "{ORIGINAL}", "{ATTACHMENT}"];
 	for(var i=0;i<others.length;i++){
 		cout = cout.replace(others[i], "");
 	}
