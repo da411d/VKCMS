@@ -120,6 +120,8 @@ function readyCards(){
 						return t.attachments[i].album.thumb.photo_1280;
 					}else if(t.attachments[i].type == "video"){
 						return t.attachments[i].video.photo_800;
+					}else if(t.attachments[i].type == "link" && t.attachments[i].link.photo){
+						return t.attachments[i].link.photo.photo_604;
 					}
 				}
 			})(t),
