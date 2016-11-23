@@ -170,16 +170,11 @@ a{
 }
 @media(max-width:643px){
 	.main{
-		width:calc(100% - 32px);
-		padding: 16px;
 		padding-bottom:48px;
 	}
 	.main:before {
 		border-width: 0 0 48px 100vw;
 		top: -48px;
-	}
-	.main .nullmargin{
-		margin: 0 -16px;
 	}
 }
 
@@ -240,9 +235,6 @@ a{
 	font-size: 18px;
 }
 
-.goto_source{
-	text-align:center;
-}
 .scrolltop{
 	position:fixed;
 	left:8px;

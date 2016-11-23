@@ -15,21 +15,6 @@ var loader = {
 			el.style.height = "0px";
 			el.style.opacity = 0;
 		}
-
-		var el = document.querySelector(".card");
-		if(el){
-			document.querySelectorAll(".card").forEach(function(t){t.style.marginTop = "128px"})
-			var els = document.querySelectorAll(".card");
-			var cnt = 0;
-			var I = setInterval(function(){
-				els[cnt].style.marginTop = "";
-				cnt++;
-				if(cnt>=els.length){
-					clearInterval(I);
-				}
-				initMsnry()
-			}, 100);
-		}
 	}
 }
 function loadPosts(f){

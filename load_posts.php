@@ -19,6 +19,6 @@ function getPosts(){
 	return $response;
 }
 $data = getPosts();
-$f = fopen(dirname(__FILE__).'/posts.json', 'c');
+$f = fopen(dirname(__FILE__).'/data/posts.json', 'c');
 fwrite($f, json_encode($data));
 fclose($f);
