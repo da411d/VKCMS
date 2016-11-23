@@ -48,6 +48,20 @@ function readyPost(n){
 								l.appendChild(v);
 								c.appendChild(l);
 								break;
+							case "link":
+								var l = document.createElement("a");
+								l.href = a.link.url;
+								l.target = "_blank";
+								var v = document.createElement("div");
+								v.className = "link";
+								if(a.link.photo){
+									v.classList.add("photo");
+									v.style.backgroundImage = "url(" +a.link.photo.photo_604+ ")";
+								}
+								v.innerHTML = '<div class="info"><span class="title">'+a.link.title+'</span><span class="description">'+a.link.description+'</span></div>';
+								l.appendChild(v);
+								c.appendChild(l);
+								break;
 						}
 					}
 					return c.innerHTML;
@@ -63,33 +77,11 @@ function readyPost(n){
 						}
 					}
 				})(t),
-				TEXT:(function(t){
-					if(t.text)return t.text;
-					out = "";
-					if(!t.attachments)return false;
-					for(var i=0;i<t.attachments.length;i++){
-						if(t.attachments[i].type == "link" && (t.attachments[i].link.title || t.attachments[i].link.description)){
-							if(t.attachments[i].link.title)out += t.attachments[i].link.title;
-							if(t.attachments[i].link.title && t.attachments[i].link.description)out += "<br>";
-							if(t.attachments[i].link.description)out += t.attachments[i].link.description;
-	
-						}else if(t.attachments[i].type == "album" && (t.attachments[i].album.title || t.attachments[i].album.description)){
-							if(t.attachments[i].album.title)out += t.attachments[i].album.title;
-							if(t.attachments[i].album.title && t.attachments[i].album.description)out += "<br>";
-							if(t.attachments[i].album.description)out += t.attachments[i].album.description;
-						}else if(t.attachments[i].type == "video"){
-							if(t.attachments[i].video.title)out += t.attachments[i].video.title;
-							if(t.attachments[i].video.title && t.attachments[i].video.description)out += "<br>";
-							if(t.attachments[i].video.description)out += t.attachments[i].video.description;
-						}
-					}
-					return out;
-				})(t)
+				TEXT : t.text || ""
 			});
 		}
 	}
 	c.innerHTML = innerHTML;
-	console.log(n, c, innerHTML);
 	document.querySelector("div.main").appendChild(c);
 	initMsnry();
 }
