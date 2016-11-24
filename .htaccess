@@ -4,8 +4,6 @@ ErrorDocument 403 "Forbidden"
 
 RewriteEngine On
 
-RewriteRule ^post/(.*)$ post.php?_=$1 [L,QSA]
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ $1.php [L,QSA]
