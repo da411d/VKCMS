@@ -12,147 +12,146 @@ function page_ready(){
 	document.querySelectorAll(".card_wrapper").forEach(function(t){t.outerHTML = '';});
 	document.querySelectorAll(".post_wrapper").forEach(function(t){t.outerHTML = '';});
 	if(window.location.hash.length>4 && window.location.hash.indexOf("post-") === 1){
-		readyPost(window.location.hash.split("-")[1]);
+		var n = window.location.hash.split("-")[1];
+		c = document.createElement("div");
+		c.className = "post_wrapper";
+		var innerHTML = "";
+		for(var i=0;i<POSTS.length;i++){
+			var t = POSTS[i];
+			if(t.id==n){
+				innerHTML += genPost({
+					POST_ID: t.id,
+					ORIGINAL: t.owner_id+"_"+t.id,
+					PROFILE_PHOTO: "data/profile.jpg",
+					USERNAME: "ФТЛ",
+					TIME: new Date(new Date() - t.date).toLocaleDateString(),
+					ATTACHMENT:(function(t){
+						var c = document.createElement("div");
+						if(!t.attachments)return false;
+						for(var i=0;i<t.attachments.length;i++){
+							var a = t.attachments[i];
+							switch(a.type){
+								case "video":
+									var l = document.createElement("a");
+									l.href = "https://vk.com/video"+a.video.owner_id+"_"+a.video.id;
+									var v = document.createElement("div");
+									v.className = "video";
+									v.style.backgroundImage = "url(" +(a.video.photo_640 || a.video.photo_320)+ ")";
+										v.innerHTML = '<div class="info"><span class="title">'+a.video.title+'</span><span class="description">'+a.video.description+'</span></div>';
+									l.appendChild(v);
+									c.appendChild(l);
+									break;
+								case "link":
+									var l = document.createElement("a");
+									l.href = a.link.url;
+									l.target = "_blank";
+									var v = document.createElement("div");
+									v.className = "link";
+									if(a.link.photo){
+										v.classList.add("photo");
+										v.style.backgroundImage = "url(" +a.link.photo.photo_604+ ")";
+									}
+									v.innerHTML = '<div class="info"><span class="title">'+a.link.title+'</span><span class="description">'+a.link.description+'</span></div>';
+									l.appendChild(v);
+									c.appendChild(l);
+									break;
+								case "album":
+									var l = document.createElement("a");
+									l.href = "https://vk.com/album"+a.album.owner_id+"_"+a.album.id;
+									var v = document.createElement("div");
+									v.className = "album";
+									v.style.backgroundImage = "url(" +(a.album.thumb.photo_1280 || a.album.thumb.photo_807 || a.album.thumb.photo_604 || a.album.thumb.photo_130)+ ")";
+									var innerHTML = '<div class="info">';
+									if(a.album.title)innerHTML += '<span class="title">'+a.album.title+'</span>';
+									if(a.album.description)innerHTML += '<span class="description">'+a.album.description+'</span>';
+									innerHTML += '</div>';
+									v.innerHTML = innerHTML;
+									l.appendChild(v);
+									c.appendChild(l);
+									break;
+								}
+							}
+							return c.innerHTML;
+						})(t),
+						IMAGE: (function(t){
+							var im = "";
+							if(!t.attachments)return false;
+							for(var i=0;i<t.attachments.length;i++){
+								if(t.attachments[i].type == "photo"){
+									return t.attachments[i].photo.photo_1280;
+								}
+							}
+						})(t),
+						TEXT :(function(str){
+							str = str.linkify();
+							str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
+							return str;
+						})(t.text || "")
+					});
+				}
+			}
+			c.innerHTML = innerHTML;
+			document.querySelector("div.main").appendChild(c);
+			initMsnry();
 		document.querySelector(".main h1 .back").style.display = "inline-block";
 	}else{
-		readyCards();
-		document.querySelector(".main h1 .back").style.display = "none";
-	}
-}
-function readyPost(n){
-	c = document.createElement("div");
-	c.className = "post_wrapper";
-	var innerHTML = "";
-	for(var i=0;i<POSTS.length;i++){
-		var t = POSTS[i];
-		if(t.id==n){
-			innerHTML += genPost({
+		c = document.createElement("div");
+		c.className = "card_wrapper";
+		var innerHTML = ""
+		for(var i=0;i<POSTS.length;i++){
+			var t = POSTS[i];
+			innerHTML += genCard({
 				POST_ID: t.id,
-				ORIGINAL: t.owner_id+"_"+t.id,
 				PROFILE_PHOTO: "data/profile.jpg",
 				USERNAME: "ФТЛ",
 				TIME: new Date(new Date() - t.date).toLocaleDateString(),
-				ATTACHMENT:(function(t){
-					var c = document.createElement("div");
-					if(!t.attachments)return false;
-					for(var i=0;i<t.attachments.length;i++){
-						var a = t.attachments[i];
-						switch(a.type){
-							case "video":
-								var l = document.createElement("a");
-								l.href = "https://vk.com/video"+a.video.owner_id+"_"+a.video.id;
-								var v = document.createElement("div");
-								v.className = "video";
-								v.style.backgroundImage = "url(" +(a.video.photo_640 || a.video.photo_320)+ ")";
-								v.innerHTML = '<div class="info"><span class="title">'+a.video.title+'</span><span class="description">'+a.video.description+'</span></div>';
-								l.appendChild(v);
-								c.appendChild(l);
-								break;
-							case "link":
-								var l = document.createElement("a");
-								l.href = a.link.url;
-								l.target = "_blank";
-								var v = document.createElement("div");
-								v.className = "link";
-								if(a.link.photo){
-									v.classList.add("photo");
-									v.style.backgroundImage = "url(" +a.link.photo.photo_604+ ")";
-								}
-								v.innerHTML = '<div class="info"><span class="title">'+a.link.title+'</span><span class="description">'+a.link.description+'</span></div>';
-								l.appendChild(v);
-								c.appendChild(l);
-								break;
-							case "album":
-								var l = document.createElement("a");
-								l.href = "https://vk.com/album"+a.album.owner_id+"_"+a.album.id;
-								var v = document.createElement("div");
-								v.className = "album";
-								v.style.backgroundImage = "url(" +(a.album.thumb.photo_1280 || a.album.thumb.photo_807 || a.album.thumb.photo_604 || a.album.thumb.photo_130)+ ")";
-								var innerHTML = '<div class="info">';
-								if(a.album.title)innerHTML += '<span class="title">'+a.album.title+'</span>';
-								if(a.album.description)innerHTML += '<span class="description">'+a.album.description+'</span>';
-								innerHTML += '</div>';
-								v.innerHTML = innerHTML;
-								l.appendChild(v);
-								c.appendChild(l);
-								break;
-						}
-					}
-					return c.innerHTML;
-				})(t),
 				IMAGE: (function(t){
 					var im = "";
 					if(!t.attachments)return false;
 					for(var i=0;i<t.attachments.length;i++){
 						if(t.attachments[i].type == "photo"){
 							return t.attachments[i].photo.photo_1280;
+						}else if(t.attachments[i].type == "link" && typeof t.attachments[i].link.photo == "array"){
+							return t.attachments[i].link.photo.photo_604;
+						}else if(t.attachments[i].type == "album"){
+							return t.attachments[i].album.thumb.photo_1280;
+						}else if(t.attachments[i].type == "video"){
+							return t.attachments[i].video.photo_800;
+						}else if(t.attachments[i].type == "link" && t.attachments[i].link.photo){
+							return t.attachments[i].link.photo.photo_604;
 						}
 					}
 				})(t),
-				TEXT : t.text.replace(/(?:\r\n|\r|\n)/g, '<br />') || ""
+				TEXT:(function(t){
+					if(t.text)return limitText(t.text);
+					out = "";
+					if(!t.attachments)return false;
+					for(var i=0;i<t.attachments.length;i++){
+						if(t.attachments[i].type == "link" && (t.attachments[i].link.title || t.attachments[i].link.description)){
+							if(t.attachments[i].link.title)out += t.attachments[i].link.title;
+							if(t.attachments[i].link.title && t.attachments[i].link.description)out += "<br>";
+							if(t.attachments[i].link.description)out += t.attachments[i].link.description;
+
+						}else if(t.attachments[i].type == "album" && (t.attachments[i].album.title || t.attachments[i].album.description)){
+							if(t.attachments[i].album.title)out += t.attachments[i].album.title;
+							if(t.attachments[i].album.title && t.attachments[i].album.description)out += "<br>";
+							if(t.attachments[i].album.description)out += t.attachments[i].album.description;
+						}else if(t.attachments[i].type == "video"){
+							if(t.attachments[i].video.title)out += t.attachments[i].video.title;
+							if(t.attachments[i].video.title && t.attachments[i].video.description)out += "<br>";
+							if(t.attachments[i].video.description)out += t.attachments[i].video.description;
+						}
+					}
+					out = limitText(out);
+					return out;
+				})(t)
 			});
 		}
+		c.innerHTML = innerHTML;
+		document.querySelector("div.main").appendChild(c);
+		initMsnry();
+		document.querySelector(".main h1 .back").style.display = "none";
 	}
-	c.innerHTML = innerHTML;
-	document.querySelector("div.main").appendChild(c);
-	initMsnry();
-}
-function readyCards(){
-	c = document.createElement("div");
-	c.className = "card_wrapper";
-	var innerHTML = ""
-	for(var i=0;i<POSTS.length;i++){
-		var t = POSTS[i];
-		innerHTML += genCard({
-			POST_ID: t.id,
-			PROFILE_PHOTO: "data/profile.jpg",
-			USERNAME: "ФТЛ",
-			TIME: new Date(new Date() - t.date).toLocaleDateString(),
-			IMAGE: (function(t){
-				var im = "";
-				if(!t.attachments)return false;
-				for(var i=0;i<t.attachments.length;i++){
-					if(t.attachments[i].type == "photo"){
-						return t.attachments[i].photo.photo_1280;
-					}else if(t.attachments[i].type == "link" && typeof t.attachments[i].link.photo == "array"){
-						return t.attachments[i].link.photo.photo_604;
-					}else if(t.attachments[i].type == "album"){
-						return t.attachments[i].album.thumb.photo_1280;
-					}else if(t.attachments[i].type == "video"){
-						return t.attachments[i].video.photo_800;
-					}else if(t.attachments[i].type == "link" && t.attachments[i].link.photo){
-						return t.attachments[i].link.photo.photo_604;
-					}
-				}
-			})(t),
-			TEXT:(function(t){
-				if(t.text)return limitText(t.text);
-				out = "";
-				if(!t.attachments)return false;
-				for(var i=0;i<t.attachments.length;i++){
-					if(t.attachments[i].type == "link" && (t.attachments[i].link.title || t.attachments[i].link.description)){
-						if(t.attachments[i].link.title)out += t.attachments[i].link.title;
-						if(t.attachments[i].link.title && t.attachments[i].link.description)out += "<br>";
-						if(t.attachments[i].link.description)out += t.attachments[i].link.description;
-
-					}else if(t.attachments[i].type == "album" && (t.attachments[i].album.title || t.attachments[i].album.description)){
-						if(t.attachments[i].album.title)out += t.attachments[i].album.title;
-						if(t.attachments[i].album.title && t.attachments[i].album.description)out += "<br>";
-						if(t.attachments[i].album.description)out += t.attachments[i].album.description;
-					}else if(t.attachments[i].type == "video"){
-						if(t.attachments[i].video.title)out += t.attachments[i].video.title;
-						if(t.attachments[i].video.title && t.attachments[i].video.description)out += "<br>";
-						if(t.attachments[i].video.description)out += t.attachments[i].video.description;
-					}
-				}
-				out = limitText(out);
-				return out;
-			})(t)
-		});
-	}
-	c.innerHTML = innerHTML;
-	document.querySelector("div.main").appendChild(c);
-	initMsnry();
 }
 
 function genCard(data){
