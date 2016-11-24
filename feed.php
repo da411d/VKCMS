@@ -23,7 +23,6 @@ include "load_posts.php";
 		<nav id="nav">
 			<a href="/">Головна</a>
 			<a href="/feed">Новини</a>
-			<a href="/gallery">Галерея</a>
 		</nav>
 		<div class="bg_wrapper">
 			<div class="bg_img" id="bg_img"></div>
