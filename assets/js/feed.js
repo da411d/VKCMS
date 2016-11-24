@@ -89,7 +89,7 @@ function readyPost(n){
 						}
 					}
 				})(t),
-				TEXT : t.text || ""
+				TEXT : t.text.replace(/(?:\r\n|\r|\n)/g, '<br />') || ""
 			});
 		}
 	}
