@@ -32,7 +32,7 @@ include "load_posts.php";
 </div>
 
 <div class="main">
-	<h1><a href="#" class="back" style="display:none;">< НАЗАД</a>Новини</h1>
+	<h1><a href="#" class="back" style="display:none;">< НАЗАД</a><span class="text">Новини</a></h1>
 	<div class="loader"></div>
 </div>
 </body>

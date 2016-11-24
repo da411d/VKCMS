@@ -93,7 +93,8 @@ function page_ready(){
 			c.innerHTML = innerHTML;
 			document.querySelector("div.main").appendChild(c);
 			initMsnry();
-		document.querySelector(".main h1 .back").style.display = "inline-block";
+			document.querySelector(".main h1 .back").style.display = "inline-block";
+			document.querySelector(".main h1 .text").style.display = "none";
 	}else{
 		c = document.createElement("div");
 		c.className = "card_wrapper";
@@ -151,6 +152,7 @@ function page_ready(){
 		document.querySelector("div.main").appendChild(c);
 		initMsnry();
 		document.querySelector(".main h1 .back").style.display = "none";
+		document.querySelector(".main h1 .text").style.display = "inline-block";
 	}
 }
 
