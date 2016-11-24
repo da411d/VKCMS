@@ -1,5 +1,6 @@
 <?php
-define("WALL_ID", -118326572);
+include "_config.php";
+define("WALL_ID", WALL_ID);
 function getPosts(){
 	$url = 'https://api.vk.com/method/wall.get';
 	$params = array(
@@ -18,7 +19,11 @@ function getPosts(){
 	$response = $response['response']['items'];
 	return $response;
 }
-$data = getPosts();
-$f = fopen(dirname(__FILE__).'/data/posts.json', 'c');
-fwrite($f, json_encode($data));
-fclose($f);
+
+$cache_url = dirname(__FILE__).'/data/posts.json';
+if(!file_exists($cache_url) || time() - filemtime($cache_url) > 86400){
+	$data = getPosts();
+	$f = fopen($cache_url, 'c');
+	fwrite($f, json_encode($data));
+	fclose($f);
+}
