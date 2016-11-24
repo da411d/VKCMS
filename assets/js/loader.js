@@ -25,7 +25,7 @@ function loadPosts(f){
 		t += '?z='+randId();
 	}
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', t, 1);
+	xhr.open('GET', t, 1);
 	xhr.send();
 	xhr.onreadystatechange = f;
 }
