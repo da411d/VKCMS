@@ -37,7 +37,11 @@ function page_ready(){
 									var v = document.createElement("div");
 									v.className = "video";
 									v.style.backgroundImage = "url(" +(a.video.photo_640 || a.video.photo_320)+ ")";
-										v.innerHTML = '<div class="info"><span class="title">'+a.video.title+'</span><span class="description">'+a.video.description+'</span></div>';
+									var innerHTML = '<div class="info">';
+									if(a.video.title)innerHTML += '<span class="title">'+a.video.title+'</span>';
+									if(a.video.description)innerHTML += '<span class="description">'+a.video.description+'</span>';
+									innerHTML += '</div>';
+									v.innerHTML = innerHTML;
 									l.appendChild(v);
 									c.appendChild(l);
 									break;
