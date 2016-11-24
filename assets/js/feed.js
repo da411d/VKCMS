@@ -173,11 +173,11 @@ function genCard(data){
 }
 
 function genPost(data){
-	var tmpl = '<div class="post"><div class="author"><div class="photo" style="background-image: url({PROFILE_PHOTO});"></div><div class="name">{USERNAME}</div><div class="time">{TIME}</div></div>{IMAGES}<div class="text">{TEXT}</div></div><div class="attachment">{ATTACHMENT}</div><a class="goto_source" href="http://vk.com/wall{ORIGINAL}">Дивитись оригінал</a>';
+	var tmpl = '<div class="post"><div class="author"><div class="photo" style="background-image: url({PROFILE_PHOTO});"></div><div class="name">{USERNAME}</div><div class="time">{TIME}</div></div>{IMAGES}<div class="text">{TEXT}</div></div><div class="attachment">{ATTACHMENT}</div><a class="goto_source" href="http://vk.com/wall{ORIGINAL}">Дивитись оригінал</a><div id="img_view" style="display:none;"onclick="this.style.display=\'none\'"></div>';
 	var cout = tmpl;
 
 	if(typeof data.IMAGE == "string"){
-		cout = cout.replace("{IMAGES}", '<div class="images"><div class="image" style="background-image: url({IMAGE});"></div></div>');
+		cout = cout.replace("{IMAGES}", '<div class="images"><div class="image" style="background-image: url({IMAGE});" onclick="var t = document.getElementById(\'img_view\');t.style.display=\'block\';t.style.backgroundImage=this.style.backgroundImage;"></div></div>');
 	}
 	for(k in data){
 		cout = cout.replace("{"+k+"}", data[k]);
