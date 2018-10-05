@@ -1,0 +1,5 @@
+DirectoryIndex index.php index.cgi index.html
+
+RewriteEngine On
+RewriteRule  script.js js/index.php
+RewriteRule  style.css css/index.php
