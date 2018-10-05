@@ -1,3 +1,9 @@
+##
+config.php
+data/*
+__OLD/*
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
